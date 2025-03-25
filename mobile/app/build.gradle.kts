@@ -70,12 +70,15 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     // Lifecycle
-    implementation(libs.androidx.lifecycle.runtime.ktx.v262)
+    implementation(libs.androidx.lifecycle.runtime.ktx.v261)
     implementation(libs.androidx.activity.compose.v181)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     // Retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     // Room
     implementation(libs.androidx.room.runtime)
