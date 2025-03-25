@@ -1,9 +1,7 @@
-﻿import JobList from "./components/JobList";
-
-function App() {
+﻿function App() {
     return (
         <div>
-            <JobList />
+            Hello World!
         </div>
     );
 }
