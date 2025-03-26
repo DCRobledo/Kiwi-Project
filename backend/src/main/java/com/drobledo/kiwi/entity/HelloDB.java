@@ -1,13 +1,12 @@
 package com.drobledo.kiwi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "hello_db")
 public class HelloDB {
-    
     @Id
+    @Column(name = "id")
     private int id;
     
     @Column(name = "message")
