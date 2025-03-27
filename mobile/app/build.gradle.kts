@@ -11,6 +11,13 @@ android {
     namespace = "com.drobledo.kiwi"
     compileSdk = 35
 
+    packaging {
+        resources.excludes.add("META-INF/LICENSE.md")
+        resources.excludes.add("META-INF/LICENSE")
+        resources.excludes.add("META-INF/LICENSE-notice.md")
+        resources.excludes.add("META-INF/NOTICE")
+    }
+
     defaultConfig {
         applicationId = "com.drobledo.kiwi"
         minSdk = 24
@@ -74,6 +81,8 @@ dependencies {
     implementation(libs.androidx.activity.compose.v181)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     // Retrofit
     implementation(libs.retrofit)
@@ -93,4 +102,14 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core.v351)
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
+    androidTestImplementation(libs.mockito.kotlin)
+    androidTestImplementation(libs.mockk)
+    androidTestImplementation(libs.mockito.junit.jupiter)
+    androidTestImplementation(libs.junit.jupiter.api)
+    androidTestImplementation(libs.junit.jupiter.engine)
+    testImplementation(libs.mockito.core.v380)
+    androidTestImplementation(libs.mockito.android)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.core.testing.v210)
 }
