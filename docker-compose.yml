@@ -25,11 +25,6 @@ services:
     ports:
       - "8080:8080"
       - "5005:5005"
-    volumes:
-      - ./backend:/app
-      - ./backend/target/classes:/app/target/classes
-    environment:
-      - SPRING_DEVTOOLS_RESTART_TRIGGER_FILE=.reloadtrigger
     networks:
       - app-network
 

@@ -1,12 +1,15 @@
-FROM maven:3.9.4-eclipse-temurin-17
-
+FROM maven:3.9.4-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY . .
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-RUN mvn clean install -DskipTests
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8080 5005
+ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "app.jar"]
 
-CMD ["mvn", "-Dspring-boot.run.fork=false", \
-"-Dspring-boot.run.jvmArguments=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", \
-"spring-boot:run"]
