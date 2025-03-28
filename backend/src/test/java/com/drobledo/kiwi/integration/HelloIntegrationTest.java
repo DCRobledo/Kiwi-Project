@@ -2,6 +2,7 @@ package com.drobledo.kiwi.integration;
 
 import com.drobledo.kiwi.repository.HelloRepository;
 import com.drobledo.kiwi.utils.HelloBaseTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @Transactional
+@ActiveProfiles("test")
 public class HelloIntegrationTest extends HelloBaseTest {
     @Autowired
     private MockMvc mockMvc;

@@ -10,8 +10,8 @@
 	</parent>
 	<groupId>com.drobledo</groupId>
 	<artifactId>kiwi</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>Kiwi Project</name>
+	<version>0.0.1</version>
+	<name>kiwi-project</name>
 	<description>Job Hunting App</description>
 	<url/>
 	<licenses>
@@ -27,7 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -71,6 +71,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludeDevtools>false</excludeDevtools>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
