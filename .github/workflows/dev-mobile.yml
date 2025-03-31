@@ -5,7 +5,16 @@ on:
     branches:
       - main
       - develop
-      - feature/ci-cd
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/dev-mobile.yml'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/dev-mobile.yml'
 
 jobs:
   mobile-ci:
@@ -44,4 +53,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: kiwi-project-debug-apk
-          path: mobile/app/build/outputs/apk/debug/kiwi-project-debug.apk
+          path: mobile/app/build/outputs/apk/debug/app-debug.apk

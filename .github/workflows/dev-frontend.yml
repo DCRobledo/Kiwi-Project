@@ -5,6 +5,16 @@ on:
     branches:
       - main
       - develop
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/dev-frontend.yml'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/dev-frontend.yml'
 
 jobs:
   frontend-ci-cd:
