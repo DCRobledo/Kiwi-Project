@@ -77,3 +77,4 @@ vite
 **local.properties
 
 scripts/
+env.*

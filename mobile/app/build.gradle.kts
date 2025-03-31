@@ -1,4 +1,11 @@
 import org.gradle.kotlin.dsl.implementation
+import java.util.Properties
+
+val envProperties = Properties()
+val envFile = rootProject.file("env.properties")
+if (envFile.exists()) {
+    envProperties.load(envFile.inputStream())
+}
 
 plugins {
     alias(libs.plugins.android.application)
@@ -24,8 +31,15 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        android.buildFeatures.buildConfig = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "ANDROID_API_URL",
+            "\"${envProperties["ANDROID_API_URL"]}\""
+        )
     }
 
     buildTypes {
