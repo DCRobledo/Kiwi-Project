@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - feature/ci-cd
     paths:
       - 'mobile/**'
       - '.github/workflows/dev-mobile.yml'

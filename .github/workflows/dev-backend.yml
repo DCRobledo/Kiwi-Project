@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - develop
+      - feature/ci-cd
     paths:
       - 'backend/**'
       - '.github/workflows/dev-backend.yml'
