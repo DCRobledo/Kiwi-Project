@@ -47,7 +47,10 @@ jobs:
       - name: Build and push Docker image
         working-directory: ./backend
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/kiwi-backend:dev-${{ github.sha }} .
-          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/kiwi-backend:dev-${{ github.sha }} ${{ secrets.DOCKERHUB_USERNAME }}/kiwi-backend:dev-latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/kiwi-backend:dev-${{ github.sha }}
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/kiwi-backend:dev-latest
+          IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/kiwi-project
+          GIT_SHA=${{ github.sha }}
+
+          docker build -t $IMAGE_NAME:backend-dev-$GIT_SHA -t $IMAGE_NAME:backend-dev-latest .
+
+          docker push $IMAGE_NAME:backend-dev-$GIT_SHA
+          docker push $IMAGE_NAME:backend-dev-latest
