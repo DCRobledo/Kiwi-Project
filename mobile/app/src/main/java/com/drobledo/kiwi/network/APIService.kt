@@ -17,7 +17,7 @@ object RetrofitClient {
 }
 
 interface APIService {
-    @GET("hello/{id}")
+    @GET("api/hello/{id}")
     suspend fun getMessage(@Path("id") id: Int): Response<HelloResponse>
 }
 

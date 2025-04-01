@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/hello")
+@RequestMapping("api/hello")
 public class HelloController {
     @Autowired
     private HelloService helloService;

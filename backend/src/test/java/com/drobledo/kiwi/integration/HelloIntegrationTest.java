@@ -34,7 +34,7 @@ public class HelloIntegrationTest extends HelloBaseTest {
 
         helloRepository.save(helloDB);
 
-        mockMvc.perform(get("/hello/1"))
+        mockMvc.perform(get("/api/hello/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Hello World!"));
     }

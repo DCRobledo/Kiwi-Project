@@ -29,7 +29,7 @@ public class HelloControllerTest extends HelloBaseTest {
     public void GetMessageByID_ReturnsMessage_IfItExists() throws Exception {
         Mockito.when(helloService.getMessageById(1)).thenReturn("Hello World!");
         
-        mockMvc.perform(get("/hello/1"))
+        mockMvc.perform(get("/api/hello/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Hello World!"));
     }

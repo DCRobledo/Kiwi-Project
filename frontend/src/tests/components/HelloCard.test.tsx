@@ -2,7 +2,7 @@
 import { Provider } from "react-redux";
 import HelloCard from "../../components/HelloCard";
 import api from "../../services/api";
-import helloReducer from '../../store/helloSlice';
+import helloReducer from "../../store/helloSlice";
 import {configureStore, Store, UnknownAction} from "@reduxjs/toolkit";
 
 jest.mock("../../services/api");
@@ -11,18 +11,12 @@ describe('HelloCard Component', () => {
     let mockStore: Store<unknown, UnknownAction, unknown>;
 
     beforeEach(() => {
-        jest.resetAllMocks(); 
-
+        jest.resetAllMocks();
+        
         mockStore = configureStore({
             reducer: {
-                hello: helloReducer, 
-            },
-            preloadedState: {
-                hello: {
-                    message: 'Initial State',  // Mock initial state
-                    status: 'idle',
-                },
-            },
+                hello: helloReducer
+            }
         });
     });
     

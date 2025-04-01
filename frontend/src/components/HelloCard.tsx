@@ -9,7 +9,7 @@ interface HelloCardProps {
 
 const HelloCard: React.FC<HelloCardProps> = ({ id }) => {
     const dispatch = useDispatch<AppDispatch>();
-    const { message, status } = useSelector((state: RootState) => state.hello);
+    const { value, status } = useSelector((state: RootState) => state.hello);
     
     useEffect(() => {
         if (status === 'idle') {
@@ -28,7 +28,7 @@ const HelloCard: React.FC<HelloCardProps> = ({ id }) => {
     return (
         <div className="bg-blue-500 text-white p-4 rounded">
             <h3>Message from Back-End:</h3>
-            <p>{message}</p>
+            <p>{value}</p>
         </div>
     )
 }

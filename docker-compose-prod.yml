@@ -1,10 +1,9 @@
+name: kiwi-prod
 services:
   db:
     image: mysql:8
-    container_name: drobledo-kiwi-mysql
+    container_name: drobledo-kiwi-mysql-prod
     restart: always
-    env_file:
-      - .env.dev
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -16,33 +15,30 @@ services:
       - app-network
 
   backend:
-    build: ./backend
-    container_name: drobledo-kiwi-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: drobledo-kiwi-backend-prod
     depends_on:
       - db
     env_file:
-      - ./backend/.env.dev
+      - ./backend/.env.prod
     ports:
       - "8080:8080"
-      - "5005:5005"
     networks:
       - app-network
 
   frontend:
-    build: ./frontend
-    container_name: drobledo-kiwi-frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: drobledo-kiwi-frontend-prod
     depends_on:
       - backend
     env_file:
-      - ./frontend/.env.dev
+      - ./frontend/.env.prod
     ports:
-      - "5173:5173"
-      - "9222:9222"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    environment:
-      - CHROME_REMOTE_DEBUGGING_PORT=9222
+      - "80:80"
     networks:
       - app-network
 

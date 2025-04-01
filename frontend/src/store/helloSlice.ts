@@ -1,39 +1,46 @@
-﻿import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+﻿import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import api from "../services/api";
 
-interface HelloState {
-    message: string;
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+export interface HelloState {
+    value: string;
+    status: 'idle' | 'loading' | 'succeeded' |  'failed';
+};
+
+const initialState: HelloState = {
+    value: "",
+    status: 'idle'
 }
 
 export const fetchHelloMessage = createAsyncThunk<string, number>(
-    'hello/fetchMessage',
+    "hello/fetchMessage",
     async (id, { rejectWithValue }) => {
         try {
-            const response = await api.get(`/hello/${id}`);
-            return response.data.message;  
+            const response = await api.get(`api/hello/${id}`);
+            return response.data.message;
         } catch (error) {
-            return rejectWithValue(error); 
+            return rejectWithValue(error);
         }
     }
 );
 
-
 const helloSlice = createSlice({
-    name: 'hello',
-    initialState: { message: '', status: 'idle' } as HelloState,
+    name: "hello",
+    initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(fetchHelloMessage.pending, (state) => {
-                state.status = 'loading';
+                state.status = "loading";
             })
-            .addCase(fetchHelloMessage.fulfilled, (state, action: PayloadAction<string>) => {
-                state.status = 'succeeded';
-                state.message = action.payload;
-            })
+            .addCase(
+                fetchHelloMessage.fulfilled,
+                (state, action: PayloadAction<string>) => {
+                    state.status = "succeeded";
+                    state.value = action.payload;
+                }
+            )
             .addCase(fetchHelloMessage.rejected, (state) => {
-                state.status = 'failed';
+                state.status = "failed";
             });
     },
 });
