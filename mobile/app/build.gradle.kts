@@ -1,10 +1,16 @@
 import org.gradle.kotlin.dsl.implementation
 import java.util.Properties
 
-val envProperties = Properties()
-val envFile = rootProject.file(".env.dev")
-if (envFile.exists()) {
-    envProperties.load(envFile.inputStream())
+val envPropertiesDev = Properties()
+val envFileDev = rootProject.file(".env.dev")
+if (envFileDev.exists()) {
+    envPropertiesDev.load(envFileDev.inputStream())
+}
+
+val envPropertiesProd = Properties()
+val envFileProd = rootProject.file(".env.prod")
+if (envFileProd.exists()) {
+    envPropertiesProd.load(envFileProd.inputStream())
 }
 
 plugins {
@@ -33,18 +39,45 @@ android {
         versionName = "1.0"
         android.buildFeatures.buildConfig = true
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
         buildConfigField(
             "String",
             "MOBILE_API_URL",
-            "\"${envProperties["MOBILE_API_URL"]}\""
+            "\"${envPropertiesDev["MOBILE_API_URL"]}\""
         )
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
+        debug {
+            buildConfigField(
+                "String",
+                "MOBILE_API_URL",
+                "\"${envPropertiesDev["MOBILE_API_URL"]}\""
+            )
+            buildConfigField(
+                "boolean",
+                "LOGGING_ENABLED",
+                "true"
+            )
             isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        release {
+            buildConfigField(
+                "String",
+                "MOBILE_API_URL",
+                "\"${envPropertiesProd["MOBILE_API_URL"]}\""
+            )
+            buildConfigField(
+                "boolean",
+                "LOGGING_ENABLED",
+                "false"
+            )
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
