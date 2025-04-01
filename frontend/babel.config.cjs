@@ -9,7 +9,7 @@
             'babel-plugin-transform-vite-meta-env',
             {
                 env: {
-                    VITE_API_URL: 'http://localhost:8080',
+                    FRONT_API_URL: 'http://localhost:8080',
                 },
             },
         ],

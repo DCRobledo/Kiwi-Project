@@ -4,7 +4,7 @@ services:
     container_name: drobledo-kiwi-mysql
     restart: always
     env_file:
-      - .env
+      - .env.dev
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     env_file:
-      - .env
+      - ./backend/.env.dev
     ports:
       - "8080:8080"
       - "5005:5005"
@@ -34,7 +34,7 @@ services:
     depends_on:
       - backend
     env_file:
-      - .env
+      - ./frontend/.env.dev
     ports:
       - "5173:5173"
       - "9222:9222"

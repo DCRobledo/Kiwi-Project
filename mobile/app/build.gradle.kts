@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.implementation
 import java.util.Properties
 
 val envProperties = Properties()
-val envFile = rootProject.file("env.properties")
+val envFile = rootProject.file(".env.dev")
 if (envFile.exists()) {
     envProperties.load(envFile.inputStream())
 }
@@ -37,8 +37,8 @@ android {
 
         buildConfigField(
             "String",
-            "ANDROID_API_URL",
-            "\"${envProperties["ANDROID_API_URL"]}\""
+            "MOBILE_API_URL",
+            "\"${envProperties["MOBILE_API_URL"]}\""
         )
     }
 

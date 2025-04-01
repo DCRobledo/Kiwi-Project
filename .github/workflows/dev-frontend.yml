@@ -3,9 +3,7 @@ name: Frontend CI/CD (Dev)
 on:
   push:
     branches:
-      - main
       - develop
-      - feature/ci-cd
     paths:
       - 'frontend/**'
       - '.github/workflows/dev-frontend.yml'
@@ -26,7 +24,7 @@ jobs:
       name: dev
 
     env:
-      REACT_APP_API_URL: ${{ secrets.VITE_API_URL }}
+      REACT_APP_API_URL: ${{ secrets.VITE_FRONT_API_URL }}
 
     steps:
       - name: Checkout code
@@ -57,7 +55,7 @@ jobs:
       - name: Create .env file for Docker build
         working-directory: ./frontend
         run: |
-          echo "VITE_API_URL=${{ secrets.VITE_API_URL }}" > .env
+          echo "VITE_FRONT_API_URL=${{ secrets.VITE_FRONT_API_URL }}" > .env
 
       - name: Build and push Docker image
         working-directory: ./frontend
