@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - feature/ci-cd
     paths:
       - 'backend/**'
       - '.github/workflows/dev-backend.yml'
@@ -24,9 +25,9 @@ jobs:
       name: dev
 
     env:
-      DB_URL: ${{ secrets.BACK_DB_URL }}
-      DB_USERNAME: ${{ secrets.BACK_DB_USERNAME }}
-      DB_PASSWORD: ${{ secrets.BACK_DB_PASSWORD }}
+      BACKEND_DB_URL: ${{ secrets.BACKEND_DB_URL }}
+      BACKEND_DB_USERNAME: ${{ secrets.BACKEND_DB_USERNAME }}
+      BACKEND_DB_PASSWORD: ${{ secrets.BACKEND_DB_PASSWORD }}
 
     steps:
       - name: Checkout code
