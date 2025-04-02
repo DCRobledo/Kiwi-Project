@@ -24,8 +24,8 @@ services:
       - db
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - BACKEND_DB_USERNAME=${BACKEND_USERNAME}
-      - BACKEND_DB_PASSWORD=${BACKEND_PASSWORD}
+      - BACKEND_DB_USERNAME=${BACKEND_DB_USERNAME}
+      - BACKEND_DB_PASSWORD=${BACKEND_DB_PASSWORD}
     env_file:
       - ./backend/.env.dev
     ports:
