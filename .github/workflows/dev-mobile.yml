@@ -1,4 +1,4 @@
-name: Mobile CI (Dev)
+name: Mobile CI/CD (Dev)
 
 on:
   push:

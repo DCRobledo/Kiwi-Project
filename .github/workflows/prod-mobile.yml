@@ -1,10 +1,9 @@
-name: Mobile CI (Prod)
+name: Mobile CI/CD (Prod)
 
 on:
   push:
     branches:
       - main
-      - feature/ci-cd
     tags:
       - 'v*'
     paths:
