@@ -4,13 +4,14 @@ services:
     image: mysql:8
     container_name: drobledo-kiwi-mysql-dev
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    env_file:
+      - ./.env.dev
     ports:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./scripts/mysql/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+      - ./scripts/mysql/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - app-network
 
@@ -21,6 +22,8 @@ services:
     container_name: drobledo-kiwi-backend-dev
     depends_on:
       - db
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     env_file:
       - ./backend/.env.dev
     ports:

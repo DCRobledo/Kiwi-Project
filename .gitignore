@@ -76,6 +76,6 @@ vite
 .cxx
 **local.properties
 
-scripts/
+init-db.sql
 env.*
 .env*
