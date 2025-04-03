@@ -24,3 +24,5 @@ spec:
             secretKeyRef:
               name: frontend-secret
               key: VITE_FRONT_API_URL
+      imagePullSecrets:
+        - name: dockerhub-secret
