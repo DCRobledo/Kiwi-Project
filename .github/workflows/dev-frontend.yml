@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - feature/ci-cd
     paths:
       - 'frontend/**'
       - '.github/workflows/dev-frontend.yml'
@@ -66,3 +67,30 @@ jobs:
 
           docker push $IMAGE_NAME:frontend-dev-$GIT_SHA
           docker push $IMAGE_NAME:frontend-dev-latest
+
+      - name: Create Kubernetes secrets for frontend
+        run: |
+          kubectl create secret generic frontend-secret \
+            --from-literal=VITE_FRONT_API_URL=${{ secrets.VITE_FRONT_API_URL }} \
+            --namespace=dev \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create DockerHub Secret for Private Image Pulling
+        run: |
+          kubectl create secret docker-registry dockerhub-secret \
+            --docker-server=https://index.docker.io/v1/ \
+            --docker-username=${{ secrets.DOCKERHUB_USERNAME }} \
+            --docker-password=${{ secrets.DOCKERHUB_TOKEN }} \
+            --docker-email=${{ secrets.DOCKERHUB_EMAIL }} \
+            --namespace=dev \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Deploy to Kubernetes (dev)
+        uses: appleboy/kubernetes-actions@v1.1.0
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          context: default
+          namespace: dev  
+          manifests: |
+            k8s/dev-frontend-deployment.yaml
+            k8s/dev-frontend-service.yaml

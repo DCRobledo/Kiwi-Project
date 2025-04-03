@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - feature/ci-cd
     paths:
       - 'backend/**'
       - '.github/workflows/dev-backend.yml'
@@ -61,3 +62,45 @@ jobs:
 
           docker push $IMAGE_NAME:backend-dev-$GIT_SHA
           docker push $IMAGE_NAME:backend-dev-latest
+
+      - name: Create Kubernetes secrets for backend
+        run: |
+          kubectl create secret generic backend-secret \
+            --from-literal=BACKEND_DB_URL=${{ secrets.BACKEND_DB_URL }} \
+            --from-literal=BACKEND_DB_USERNAME=${{ secrets.BACKEND_DB_USERNAME }} \
+            --from-literal=BACKEND_DB_PASSWORD=${{ secrets.BACKEND_DB_PASSWORD }} \
+            --namespace=dev \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create DockerHub Secret for Private Image Pulling
+        run: |
+          kubectl create secret docker-registry dockerhub-secret \
+            --docker-server=https://index.docker.io/v1/ \
+            --docker-username=${{ secrets.DOCKERHUB_USERNAME }} \
+            --docker-password=${{ secrets.DOCKERHUB_TOKEN }} \
+            --docker-email=${{ secrets.DOCKERHUB_EMAIL }} \
+            --namespace=dev \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create Kubernetes secrets for DB credentials
+        run: |
+          kubectl create secret generic mysql-db-secret \
+            --from-literal=MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
+            --from-literal=MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} \
+            --namespace=dev \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Deploy MySQL Database to Kubernetes (Dev)
+        run: |
+          kubectl apply -f k8s/dev-db-deployment.yaml
+          kubectl apply -f k8s/dev-db-service.yaml
+
+      - name: Deploy to Kubernetes (dev)
+        uses: appleboy/kubernetes-actions@v1.1.0
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          context: default
+          namespace: dev  
+          manifests: |
+            k8s/dev-backend-deployment.yaml
+            k8s/dev-backend-service.yaml
