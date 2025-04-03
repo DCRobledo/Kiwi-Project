@@ -107,7 +107,6 @@ jobs:
           ca_cert: ${{ secrets.K8S_CA_CERT }}
           token: ${{ secrets.K8S_TOKEN }}
           namespace: dev
+          debug: true
           context_name: default
-          templates: |
-            k8s/dev-backend-deployment.yaml
-            k8s/dev-backend-service.yaml
+          templates: k8s/dev-backend-deployment.yaml
