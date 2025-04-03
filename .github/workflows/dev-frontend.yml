@@ -86,7 +86,6 @@ jobs:
             --docker-server=https://index.docker.io/v1/ \
             --docker-username=${{ secrets.DOCKERHUB_USERNAME }} \
             --docker-password=${{ secrets.DOCKERHUB_TOKEN }} \
-            --docker-email=${{ secrets.DOCKERHUB_EMAIL }} \
             --namespace=dev \
             --dry-run=client -o yaml | kubectl apply -f -
 
@@ -98,6 +97,4 @@ jobs:
           token: ${{ secrets.K8S_TOKEN }}
           namespace: dev
           context_name: default
-          templates: |
-            k8s/dev-frontend-deployment.yaml
-            k8s/dev-frontend-service.yaml
+          templates: k8s/dev-frontend-*.yaml
