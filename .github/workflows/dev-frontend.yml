@@ -93,9 +93,11 @@ jobs:
       - name: Deploy to Kubernetes (dev)
         uses: appleboy/kubernetes-action@v0.0.1
         with:
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
-          context: default
-          namespace: dev  
-          manifests: |
+          server: ${{ secrets.K8S_SERVER }}
+          ca_cert: ${{ secrets.K8S_CA_CERT }}
+          token: ${{ secrets.K8S_TOKEN }}
+          namespace: dev
+          context_name: default
+          templates: |
             k8s/dev-frontend-deployment.yaml
             k8s/dev-frontend-service.yaml
