@@ -96,7 +96,7 @@ jobs:
           kubectl apply -f k8s/dev-db-service.yaml
 
       - name: Deploy to Kubernetes (dev)
-        uses: appleboy/kubernetes-actions@v0.0.1
+        uses: appleboy/kubernetes-action@master
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
           context: default
