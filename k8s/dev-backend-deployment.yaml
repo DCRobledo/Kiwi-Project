@@ -19,7 +19,7 @@ spec:
         ports:
         - containerPort: 8080
         env:
-        - name: BACKEND_DB_URL_K8S
+        - name: BACKEND_DB_URL
           valueFrom:
             secretKeyRef:
               name: backend-secret  
