@@ -86,7 +86,7 @@ jobs:
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Deploy to Kubernetes (dev)
-        uses: appleboy/kubernetes-actions@v1.1.0
+        uses: appleboy/kubernetes-actions@master
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG }}
           context: default
