@@ -68,6 +68,11 @@ jobs:
           docker push $IMAGE_NAME:frontend-dev-$GIT_SHA
           docker push $IMAGE_NAME:frontend-dev-latest
 
+      - name: Set up Kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
       - name: Create Kubernetes secrets for frontend
         run: |
           kubectl create secret generic frontend-secret \

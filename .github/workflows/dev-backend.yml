@@ -62,6 +62,11 @@ jobs:
 
           docker push $IMAGE_NAME:backend-dev-$GIT_SHA
           docker push $IMAGE_NAME:backend-dev-latest
+      
+      - name: Set up Kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
 
       - name: Create Kubernetes secrets for backend
         run: |
