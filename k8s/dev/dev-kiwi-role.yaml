@@ -4,6 +4,6 @@ metadata:
   namespace: dev
   name: kiwi-role-dev
 rules:
-  - apiGroups: [""]
+  - apiGroups: ["apps"]
     resources: ["pods", "deployments", "services", "secrets"]
     verbs: ["create", "get", "list", "update", "patch", "delete"]
