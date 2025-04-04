@@ -7,17 +7,17 @@ on:
       - feature/ci-cd
     paths:
       - 'frontend/**'
-      - '.github/workflows/dev-frontend.yml'
-      - 'k8s/workflows/dev-frontend-deployment.yml'
-      - 'k8s/workflows/dev-frontend-service.yml'
+      - '.github/workflows/dev/dev-frontend-workflow.yml'
+      - 'k8s/workflows/dev/dev-frontend-deployment.yml'
+      - 'k8s/workflows/dev/dev-frontend-service.yml'
   pull_request:
     branches:
       - develop
     paths:
       - 'frontend/**'
-      - '.github/workflows/dev-frontend.yml'
-      - 'k8s/workflows/dev-frontend-deployment.yml'
-      - 'k8s/workflows/dev-frontend-service.yml'
+      - '.github/workflows/dev/dev-frontend-workflow.yml'
+      - 'k8s/workflows/dev/dev-frontend-deployment.yml'
+      - 'k8s/workflows/dev/dev-frontend-service.yml'
 
 jobs:
   frontend-ci-cd:
@@ -102,4 +102,4 @@ jobs:
           token: ${{ secrets.K8S_TOKEN }}
           namespace: dev
           context_name: default
-          templates: k8s/dev-frontend-*.yaml
+          templates: k8s/dev/dev-frontend-*.yaml

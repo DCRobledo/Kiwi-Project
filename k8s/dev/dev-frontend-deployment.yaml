@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: kiwi-frontend-dev
   namespace: dev 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: kiwi-frontend-dev
   template:
     metadata:
       labels:
-        app: frontend
+        app: kiwi-frontend-dev
     spec:
       containers:
-      - name: frontend
+      - name: kiwi-frontend-dev
         image: danielrobledo/kiwi-project:frontend-dev-latest
         ports:
         - containerPort: 5173

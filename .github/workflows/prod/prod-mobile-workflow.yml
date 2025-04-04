@@ -8,7 +8,7 @@ on:
       - 'v*'
     paths:
       - 'mobile/**'
-      - '.github/workflows/prod-mobile.yml'
+      - '.github/workflows/prod/prod-mobile-workflow.yml'
   pull_request:
     tags:
         - 'v*'
@@ -16,7 +16,7 @@ on:
       - main
     paths:
       - 'mobile/**'
-      - '.github/workflows/prod-mobile.yml'
+      - '.github/workflows/prod/prod-mobile-workflow.yml'
 
 jobs:
   mobile-ci:

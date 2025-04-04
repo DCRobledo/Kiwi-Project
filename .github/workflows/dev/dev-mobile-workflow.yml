@@ -6,13 +6,13 @@ on:
       - develop
     paths:
       - 'mobile/**'
-      - '.github/workflows/dev-mobile.yml'
+      - '.github/workflows/dev/dev-mobile-workflow.yml'
   pull_request:
     branches:
       - develop
     paths:
       - 'mobile/**'
-      - '.github/workflows/dev-mobile.yml'
+      - '.github/workflows/dev/dev-mobile-workflow.yml'
 
 jobs:
   mobile-ci:

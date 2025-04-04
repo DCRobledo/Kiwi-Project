@@ -7,18 +7,18 @@ on:
       - feature/ci-cd
     paths:
       - 'backend/**'
-      - '.github/workflows/dev-backend.yml'
-      - 'k8s/workflows/dev-backend-deployment.yml'
-      - 'k8s/workflows/dev-backend-service.yml'
+      - '.github/workflows/dev/dev-backend-workflow.yml'
+      - 'k8s/workflows/dev/dev-backend-deployment.yml'
+      - 'k8s/workflows/dev/dev-backend-service.yml'
   pull_request:
     branches:
       - develop
+      - feature/ci-cd
     paths:
       - 'backend/**'
-      - '.github/workflows/dev-backend.yml'
-      - 'k8s/workflows/dev-backend*.yml'
-      - 'k8s/workflows/dev-backend-deployment.yml'
-      - 'k8s/workflows/dev-backend-service.yml'
+      - '.github/workflows/dev/dev-backend-workflow.yml'
+      - 'k8s/workflows/dev/dev-backend-deployment.yml'
+      - 'k8s/workflows/dev/dev-backend-service.yml'
 
 jobs:
   backend-ci-cd:
@@ -92,19 +92,6 @@ jobs:
             --namespace=dev \
             --dry-run=client -o yaml | kubectl apply -f -
 
-      - name: Create Kubernetes secrets for DB credentials
-        run: |
-          kubectl create secret generic mysql-db-secret \
-            --from-literal=MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
-            --from-literal=MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} \
-            --namespace=dev \
-            --dry-run=client -o yaml | kubectl apply -f -
-
-      - name: Deploy MySQL Database to Kubernetes (Dev)
-        run: |
-          kubectl apply -f k8s/dev-db-deployment.yaml
-          kubectl apply -f k8s/dev-db-service.yaml
-
       - name: Deploy to Kubernetes (dev)
         uses: appleboy/kubernetes-action@v0.0.1
         with:
@@ -114,4 +101,4 @@ jobs:
           namespace: dev
           debug: true
           context_name: default
-          templates: k8s/dev-backend-*.yaml
+          templates: k8s/dev/dev-backend-*.yaml
