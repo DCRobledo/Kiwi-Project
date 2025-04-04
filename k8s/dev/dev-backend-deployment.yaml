@@ -13,7 +13,6 @@ spec:
       labels:
         app: kiwi-backend-dev
     spec:
-      serviceAccountName: kiwi-serviceaccount-dev
       containers:
       - name: kiwi-backend-dev
         image: danielrobledo/kiwi-project:backend-dev-latest

@@ -73,12 +73,6 @@ jobs:
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
 
-      - name: Create Kubernetes service account, role, and role binding
-        run: |
-          kubectl apply -f k8s/dev/dev-kiwi-serviceaccount.yaml
-          kubectl apply -f k8s/dev/dev-kiwi-role.yaml
-          kubectl apply -f k8s/dev/dev-kiwi-rolebinding.yaml
-
       - name: Create Kubernetes secrets for backend
         run: |
           kubectl create secret generic backend-secret \
@@ -105,6 +99,4 @@ jobs:
           ca_cert: ${{ secrets.K8S_CA_CERT }}
           token: ${{ secrets.K8S_TOKEN }}
           namespace: dev
-          debug: true
-          context_name: default
           templates: k8s/dev/dev-backend-*.yaml
