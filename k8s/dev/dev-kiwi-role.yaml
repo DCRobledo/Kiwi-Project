@@ -5,5 +5,5 @@ metadata:
   name: kiwi-role-dev
 rules:
   - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["get", "list", "watch"]
+    resources: ["pods", "deployments", "services", "secrets"]
+    verbs: ["create", "get", "list", "update", "delete"]
