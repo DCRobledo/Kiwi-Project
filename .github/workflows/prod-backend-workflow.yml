@@ -8,7 +8,7 @@ on:
       - 'v*'
     paths:
       - 'backend/**'
-      - '.github/workflows/prod/prod-backend-workflow.yml'
+      - '.github/workflows/prod-backend-workflow.yml'
   pull_request:
     branches:
       - main
@@ -16,7 +16,7 @@ on:
       - 'v*'
     paths:
       - 'backend/**'
-      - '.github/workflows/prod/prod-backend-workflow.yml'
+      - '.github/workflows/prod-backend-workflow.yml'
 
 jobs:
   backend-ci-cd:

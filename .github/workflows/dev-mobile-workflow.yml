@@ -1,22 +1,18 @@
-name: Mobile CI/CD (Prod)
+name: Mobile CI/CD (Dev)
 
 on:
   push:
     branches:
-      - main
-    tags:
-      - 'v*'
+      - develop
     paths:
       - 'mobile/**'
-      - '.github/workflows/prod/prod-mobile-workflow.yml'
+      - '.github/workflows/dev-mobile-workflow.yml'
   pull_request:
-    tags:
-        - 'v*'
     branches:
-      - main
+      - develop
     paths:
       - 'mobile/**'
-      - '.github/workflows/prod/prod-mobile-workflow.yml'
+      - '.github/workflows/dev-mobile-workflow.yml'
 
 jobs:
   mobile-ci:
@@ -24,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment:
-      name: prod
+      name: dev
 
     steps:
       - name: Checkout code
@@ -47,18 +43,12 @@ jobs:
         run: ./gradlew test
         working-directory: ./mobile
 
-      - name: Build release APK
-        run: ./gradlew assembleRelease
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
         working-directory: ./mobile
 
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kiwi-project-release-apk
-          path: mobile/app/build/outputs/apk/release/app-release.apk
-          
-      - name: Set APK Version
-        run: |
-          VERSION_TAG=$(git describe --tags --abbrev=0 || date +'%Y-%m-%d-%H%M%S')
-          echo "VERSION_TAG=$VERSION_TAG" >> $GITHUB_ENV
-
+          name: kiwi-project-debug-apk
+          path: mobile/app/build/outputs/apk/debug/app-debug.apk

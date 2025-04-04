@@ -1,51 +1,47 @@
-name: Frontend CI/CD (Dev)
-
+name: Backend CI/CD (Dev)
+  
 on:
   push:
     branches:
       - develop
       - feature/ci-cd
     paths:
-      - 'frontend/**'
-      - '.github/workflows/dev/dev-frontend-workflow.yml'
-      - 'k8s/workflows/dev/dev-frontend-deployment.yml'
-      - 'k8s/workflows/dev/dev-frontend-service.yml'
+      - 'backend/**'
+      - '.github/workflows/dev-backend-workflow.yml'
+      - 'k8s/dev/dev-backend-deployment.yml'
+      - 'k8s/dev/dev-backend-service.yml'
   pull_request:
     branches:
       - develop
+      - feature/ci-cd
     paths:
-      - 'frontend/**'
-      - '.github/workflows/dev/dev-frontend-workflow.yml'
-      - 'k8s/workflows/dev/dev-frontend-deployment.yml'
-      - 'k8s/workflows/dev/dev-frontend-service.yml'
+      - 'backend/**'
+      - '.github/workflows/dev-backend-workflow.yml'
+      - 'k8s/dev/dev-backend-deployment.yml'
+      - 'k8s/dev/dev-backend-service.yml'
 
 jobs:
-  frontend-ci-cd:
-    name: Test, Build, and Push Frontend Image
+  backend-ci-cd:
+    name: Test, Build, and Push Backend
     runs-on: ubuntu-latest
 
     environment:
       name: dev
 
     env:
-      REACT_APP_API_URL: ${{ secrets.VITE_FRONT_API_URL }}
+      BACKEND_DB_URL: ${{ secrets.BACKEND_DB_URL }}
+      BACKEND_DB_USERNAME: ${{ secrets.BACKEND_DB_USERNAME }}
+      BACKEND_DB_PASSWORD: ${{ secrets.BACKEND_DB_PASSWORD }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          node-version: '20'
-
-      - name: Install dependencies
-        working-directory: ./frontend
-        run: npm install
-
-      - name: Run tests
-        working-directory: ./frontend
-        run: npm test -- --watchAll=false
+          java-version: '17'
+          distribution: 'temurin'
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -56,31 +52,33 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Create .env file for Docker build
-        working-directory: ./frontend
+      - name: Run backend tests
+        working-directory: ./backend
         run: |
-          echo "VITE_FRONT_API_URL=${{ secrets.VITE_FRONT_API_URL }}" > .env
+          ./mvnw test
 
       - name: Build and push Docker image
-        working-directory: ./frontend
+        working-directory: ./backend
         run: |
           IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/kiwi-project
           GIT_SHA=${{ github.sha }}
 
-          docker build -t $IMAGE_NAME:frontend-dev-$GIT_SHA -t $IMAGE_NAME:frontend-dev-latest -f Dockerfile.dev .
+          docker build -t $IMAGE_NAME:backend-dev-$GIT_SHA -t $IMAGE_NAME:backend-dev-latest -f Dockerfile.dev .
 
-          docker push $IMAGE_NAME:frontend-dev-$GIT_SHA
-          docker push $IMAGE_NAME:frontend-dev-latest
-
+          docker push $IMAGE_NAME:backend-dev-$GIT_SHA
+          docker push $IMAGE_NAME:backend-dev-latest
+      
       - name: Set up Kubeconfig
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
 
-      - name: Create Kubernetes secrets for frontend
+      - name: Create Kubernetes secrets for backend
         run: |
-          kubectl create secret generic frontend-secret \
-            --from-literal=VITE_FRONT_API_URL=${{ secrets.VITE_FRONT_API_URL }} \
+          kubectl create secret generic backend-secret \
+            --from-literal=BACKEND_DB_URL_K8S=${{ secrets.BACKEND_DB_URL_K8S }} \
+            --from-literal=BACKEND_DB_USERNAME=${{ secrets.BACKEND_DB_USERNAME }} \
+            --from-literal=BACKEND_DB_PASSWORD=${{ secrets.BACKEND_DB_PASSWORD }} \
             --namespace=dev \
             --dry-run=client -o yaml | kubectl apply -f -
 
@@ -101,5 +99,6 @@ jobs:
           ca_cert: ${{ secrets.K8S_CA_CERT }}
           token: ${{ secrets.K8S_TOKEN }}
           namespace: dev
+          debug: true
           context_name: default
-          templates: k8s/dev/dev-frontend-*.yaml
+          templates: k8s/dev/dev-backend-*.yaml
