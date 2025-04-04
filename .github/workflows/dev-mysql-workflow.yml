@@ -26,6 +26,11 @@ jobs:
     environment:
       name: dev
 
+    name: Set up Kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
     steps:
       - name: Create Kubernetes secrets for credentials
         run: |
