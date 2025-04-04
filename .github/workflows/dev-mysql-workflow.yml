@@ -26,12 +26,12 @@ jobs:
     environment:
       name: dev
 
-    name: Set up Kubeconfig
-        run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
-
     steps:
+      - name: Set up Kubeconfig
+        run: |
+            mkdir -p ~/.kube
+            echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
       - name: Create Kubernetes secrets for credentials
         run: |
           kubectl create secret generic mysql-secret \
