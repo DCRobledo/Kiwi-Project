@@ -80,7 +80,7 @@ jobs:
       - name: Create Kubernetes secrets for frontend
         run: |
           kubectl create secret generic frontend-secret \
-            --from-literal=VITE_FRONT_API_URL=${{ secrets.VITE_FRONT_API_URL }} \
+            --from-literal=VITE_FRONT_API_URL=${{ secrets.VITE_FRONT_API_URL_K8S }} \
             --namespace=dev \
             --dry-run=client -o yaml | kubectl apply -f -
 
