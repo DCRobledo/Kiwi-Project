@@ -9,6 +9,7 @@ on:
       - '.github/workflows/dev-mysql-workflow.yml'
       - 'k8s/dev/dev-mysql-deployment.yaml'
       - 'k8s/dev/dev-mysql-service.yaml'
+      - 'k8s/dev/dev-mysql-configmap.yaml'
   pull_request:
     branches:
       - develop
@@ -17,6 +18,7 @@ on:
       - '.github/workflows/dev-mysql-workflow.yml'
       - 'k8s/dev/dev-mysql-deployment.yaml'
       - 'k8s/dev/dev-mysql-service.yaml'
+      - 'k8s/dev/dev-mysql-configmap.yaml'
 
 jobs:
   mysql-cd:
@@ -32,8 +34,8 @@ jobs:
 
       - name: Set up Kubeconfig
         run: |
-            mkdir -p ~/.kube
-            echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
 
       - name: Create Kubernetes secrets for credentials
         run: |
@@ -52,6 +54,10 @@ jobs:
             --from-literal=TEAM_03_PASSWORD=${{ secrets.TEAM_03_PASSWORD }} \
             --namespace=dev \
             --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Deploy MySQL ConfigMap for initialization script
+        run: |
+          kubectl apply -f k8s/dev/dev-mysql-configmap.yaml
 
       - name: Deploy to Kubernetes
         run: |
