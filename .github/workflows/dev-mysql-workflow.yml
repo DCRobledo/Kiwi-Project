@@ -41,6 +41,7 @@ jobs:
             --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Deploy to Kubernetes
+        working-directory: ./k8s/dev
         run: |
-          kubectl apply -f k8s/dev-mysql-deployment.yaml
-          kubectl apply -f k8s/dev-mysql-service.yaml
+          kubectl apply -f dev-mysql-deployment.yaml
+          kubectl apply -f dev-mysql-service.yaml
