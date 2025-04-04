@@ -8,16 +8,16 @@ on:
     paths:
       - 'frontend/**'
       - '.github/workflows/dev-frontend-workflow.yml'
-      - 'k8s/dev/dev-frontend-deployment.yml'
-      - 'k8s/dev/dev-frontend-service.yml'
+      - 'k8s/dev/dev-frontend-deployment.yaml'
+      - 'k8s/dev/dev-frontend-service.yaml'
   pull_request:
     branches:
       - develop
     paths:
       - 'frontend/**'
       - '.github/workflows/dev-frontend-workflow.yml'
-      - 'k8s/dev/dev-frontend-deployment.yml'
-      - 'k8s/dev/dev-frontend-service.yml'
+      - 'k8s/dev/dev-frontend-deployment.yaml'
+      - 'k8s/dev/dev-frontend-service.yaml'
 
 jobs:
   frontend-ci-cd:
