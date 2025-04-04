@@ -14,9 +14,9 @@ spec:
         app: kiwi-mysql-dev
     spec:
       volumes:
-        - name: mysql-init-script-volume
+        - name: kiwi-mysql-dev-init-script-volume
           configMap:
-            name: mysql-init-script
+            name: kiwi-mysql-dev-init-script
       containers:
       - name: kiwi-mysql-dev
         image: mysql:8.0
@@ -84,5 +84,5 @@ spec:
         ports:
           - containerPort: 3306
         volumeMounts:
-          - name: mysql-init-script-volume
+          - name: kiwi-mysql-dev-init-script-volume
             mountPath: /docker-entrypoint-initdb.d

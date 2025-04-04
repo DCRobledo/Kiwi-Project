@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mysql-init-script
+  name: kiwi-mysql-dev-init-script
   namespace: dev
 data:
   init-db.sh: |
