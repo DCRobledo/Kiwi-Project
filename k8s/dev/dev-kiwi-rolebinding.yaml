@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kiwi-rolebinding-dev
+  namespace: dev
+subjects:
+  - kind: ServiceAccount
+    name: kiwi-serviceaccount-dev
+    namespace: dev
+roleRef:
+  kind: Role
+  name: kiwi-role-dev
+  apiGroup: rbac.authorization.k8s.io
