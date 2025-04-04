@@ -55,6 +55,10 @@ jobs:
             --namespace=dev \
             --dry-run=client -o yaml | kubectl apply -f -
 
+      - name: Deploy MySQL PVC for persistent storage
+        run: |
+          kubectl apply -f k8s/dev/dev-mysql-pvc.yaml
+          
       - name: Deploy MySQL ConfigMap for initialization script
         run: |
           kubectl apply -f k8s/dev/dev-mysql-configmap.yaml
