@@ -13,19 +13,76 @@ spec:
       labels:
         app: kiwi-mysql-dev
     spec:
+      volumes:
+        - name: mysql-init-script-volume
+          configMap:
+            name: mysql-init-script
       containers:
       - name: kiwi-mysql-dev
-        image: mysql:8.0 
+        image: mysql:8.0
         env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mysql-db-secret
-              key: MYSQL_ROOT_PASSWORD
-        - name: MYSQL_DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: mysql-db-secret
-              key: MYSQL_DATABASE
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: MYSQL_ROOT_PASSWORD
+          - name: MYSQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: MYSQL_DATABASE
+          - name: MYSQL_INIT_TABLE
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: MYSQL_INIT_TABLE
+          - name: BACKEND_DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: BACKEND_DB_USERNAME
+          - name: BACKEND_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: BACKEND_DB_PASSWORD
+          - name: TEAM_ROLE
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: TEAM_ROLE
+          - name: TEAM_01_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: TEAM_01_USERNAME
+          - name: TEAM_01_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: TEAM_01_PASSWORD
+          - name: TEAM_02_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: TEAM_02_USERNAME
+          - name: TEAM_02_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: TEAM_02_PASSWORD
+          - name: TEAM_03_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: TEAM_03_USERNAME
+          - name: TEAM_03_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: TEAM_03_PASSWORD
         ports:
-        - containerPort: 3306
+          - containerPort: 3306
+        volumeMounts:
+          - name: mysql-init-script-volume
+            mountPath: /docker-entrypoint-initdb.d
